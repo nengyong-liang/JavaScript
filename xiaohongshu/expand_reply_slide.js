@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        小红书自动展开回复+页面滑动
 // @namespace   https://xhsqun.com
-// @version     0.4
+// @version     0.5
 // @description 自动展开回复和下滑页面，包含暂停/继续/停止功能，优化性能和代码逻辑。
 // @author      xhsqun.com
 // @match       https://www.xiaohongshu.com/*
