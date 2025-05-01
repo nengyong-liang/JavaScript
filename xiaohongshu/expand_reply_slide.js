@@ -7,8 +7,8 @@
 // @match       https://www.xiaohongshu.com/*
 // @icon         https://www.xiaohongshu.com/favicon.ico
 // @grant       none
-// @downloadURL https://github.com/nengyong-liang/JavaScript/blob/main/xiaohongshu/expand_reply_slide.js
-// @updateURL https://github.com/nengyong-liang/JavaScript/blob/main/xiaohongshu/expand_reply_slide.js
+// @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/xiaohongshu/expand_reply_slide.js
+// @updateURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/xiaohongshu/expand_reply_slide.js
 // ==/UserScript==
 (function () {
     // 添加按钮样式
