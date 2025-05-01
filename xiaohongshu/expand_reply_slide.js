@@ -1,11 +1,14 @@
 // ==UserScript==
-// @name        小红书自动展开回复+页面滑动（优化版）
+// @name        小红书自动展开回复+页面滑动
 // @namespace   https://xhsqun.com
 // @version     0.4
 // @description 自动展开回复和下滑页面，包含暂停/继续/停止功能，优化性能和代码逻辑。
 // @author      xhsqun.com
 // @match       https://www.xiaohongshu.com/*
+// @icon         https://www.xiaohongshu.com/favicon.ico
 // @grant       none
+// @downloadURL https://github.com/nengyong-liang/JavaScript/blob/main/douyin/hard_close.js
+// @updateURL https://github.com/nengyong-liang/JavaScript/blob/main/douyin/hard_close.js
 // ==/UserScript==
 (function () {
     // 添加按钮样式
@@ -36,6 +39,7 @@
 
     // 辅助函数：延迟
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    // 异步编程
 
     // 辅助函数：等待元素加载
     const waitForElement = async (selector, timeout = 10000) => {
