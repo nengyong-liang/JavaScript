@@ -7,12 +7,12 @@
 // @match       https://www.xiaohongshu.com/*
 // @icon         https://www.xiaohongshu.com/favicon.ico
 // @grant       none
-// @downloadURL https://github.com/nengyong-liang/JavaScript/blob/main/douyin/hard_close.js
-// @updateURL https://github.com/nengyong-liang/JavaScript/blob/main/douyin/hard_close.js
+// @downloadURL https://github.com/nengyong-liang/JavaScript/blob/main/xiaohongshu/expand_reply_slide.js
+// @updateURL https://github.com/nengyong-liang/JavaScript/blob/main/xiaohongshu/expand_reply_slide.js
 // ==/UserScript==
 (function () {
     // 添加按钮样式
-    //修改验证
+    // 修改验证123
     const createButton = (text, color, bottom) => { //定义函数
         const button = document.createElement('div'); //创建一个新的 <div> 元素。
         button.style = `
