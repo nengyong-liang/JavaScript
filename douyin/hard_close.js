@@ -8,8 +8,8 @@
 // @match       https://www.bilibili.com/*
 // @icon        https://example.com/favicon.ico
 // @grant       none
-// @downloadURL https://github.com/nengyong-liang/JavaScript/blob/main/douyin/hard_close.js
-// @updateURL https://github.com/nengyong-liang/JavaScript/blob/main/douyin/hard_close.js
+// @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/hard_close.js
+// @updateURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/hard_close.js
 // ==/UserScript==
 (function() {
 
