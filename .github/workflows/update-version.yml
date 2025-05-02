@@ -61,4 +61,4 @@ jobs:
       
           git add xiaohongshu/expand_reply_slide.js
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
-          git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN_1 }}@github.com/nengyong-liang/JavaScript.git
+          git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
