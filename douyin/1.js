@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         抖音收藏视频跳转助手 - 支持左键跳转右键拖动
+// @name         抖音收藏视频跳转助手
 // @namespace    http://tampermonkey.net/
-// @version      0.2
-// @description  在抖音用户收藏页面显示可移动按钮，左键点击跳转视频，右键点击拖动按钮
+// @version      0.1
+// @description  在抖音用户收藏页面显示可移动按钮，点击跳转到对应视频页面
 // @author       你
-// @match        https://www.douyin.com/*
+// @match        https://www.douyin.com/user/self*
 // @grant        none
 // ==/UserScript==
 
@@ -36,34 +36,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            cursor: move;
             user-select: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: transform 0.2s ease;
         `;
 
+        // 拖动功能
         let isDragging = false;
         let offsetX = 0, offsetY = 0;
 
-        // 左键点击事件：跳转视频页面
-        button.addEventListener('click', (e) => {
-            if (e.button === 0) { // 左键点击
-                window.open(`https://www.douyin.com/video/${modalId}`, '_blank');
-            }
-        });
-
-        // 右键按下：启动拖动
         button.addEventListener('mousedown', (e) => {
-            if (e.button === 2) { // 鼠标右键
-                e.preventDefault(); // 阻止默认右键菜单
-                isDragging = true;
-                offsetX = e.clientX - button.offsetLeft;
-                offsetY = e.clientY - button.offsetTop;
-                button.style.transition = 'none';
-            }
+            isDragging = true;
+            offsetX = e.clientX - button.offsetLeft;
+            offsetY = e.clientY - button.offsetTop;
+            button.style.transition = 'none';
         });
 
-        // 拖动逻辑
         document.addEventListener('mousemove', (e) => {
             if (isDragging) {
                 button.style.left = `${e.clientX - offsetX}px`;
@@ -71,11 +60,15 @@
             }
         });
 
-        // 松开鼠标：停止拖动
-        document.addEventListener('mouseup', (e) => {
-            if (e.button === 2) { // 右键释放
-                isDragging = false;
-                button.style.transition = 'transform 0.2s ease';
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            button.style.transition = 'transform 0.2s ease';
+        });
+
+        // 点击事件：跳转视频页面
+        button.addEventListener('click', (e) => {
+            if (!isDragging) { // 防止误触拖动触发点击
+                window.open(`https://www.douyin.com/video/${modalId}`, '_blank');
             }
         });
 
@@ -98,7 +91,6 @@
     }
 
     // 监听 URL 变化（适用于单页应用）
-    //监听间隔 
     const oldPushState = history.pushState;
     history.pushState = function (...args) {
         oldPushState.apply(this, args);

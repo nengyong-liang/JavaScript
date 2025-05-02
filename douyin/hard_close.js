@@ -62,8 +62,8 @@
     });
 
     let countdown = 120;
-    let intervalId = null;
-    let urlCheckTimer = null;
+    let intervalId = null; // 用于存储倒计时的ID
+    let urlCheckTimer = null; // 用于存储URL检查的ID
 
     function isTargetPage(url) {
         return TARGET_URLS.some(base => url === base || url.startsWith(base + '/'));
@@ -72,12 +72,12 @@
     function startCountdown() {
         if (intervalId !== null) return; // 防止重复启动
         intervalId = setInterval(() => {
-            countdown--;
+            countdown--; // 每秒减少1秒
             countdownBox.innerText = `${countdown}s`;
 
             if (countdown <= 0) {
-                clearInterval(intervalId);
-                intervalId = null;
+                clearInterval(intervalId); // 清除倒计时
+                intervalId = null;// 重置倒计时ID
 
                 const alertBox = document.createElement('div');
                 alertBox.style = `
@@ -87,7 +87,7 @@
                     width: 80%;
                     height: 80%;
                     transform: translate(-50%, -50%);
-                    background-color: rgba(255, 0, 0, 0.8);
+                    background-color: rgba(255, 0, 0, 0.5);
                     color: white;
                     display: flex;
                     justify-content: center;
@@ -114,15 +114,17 @@
         }
     }
 
-    function monitorURL() {
-        let lastURL = location.href;
-
+    function monitorURL() { //整个monitorURL，1s检查一次当前URL
+        let lastURL = location.href; // 初始化lastURL为当前URL
         urlCheckTimer = setInterval(() => {
-            const currentURL = location.href;
+            const currentURL = location.href; // 获取当前URL
+            
+            //如果当前URL与上次URL不同，则更新lastURL
             if (currentURL !== lastURL) {
                 lastURL = currentURL;
             }
 
+            //如果当前URL是目标URL，则开始倒计时
             if (isTargetPage(currentURL)) {
                 startCountdown();
             } else {
