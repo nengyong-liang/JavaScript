@@ -7,6 +7,7 @@ on: # 触发条件
 
 jobs:
   update-version:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     name: 更新版本号并提交
     runs-on: ubuntu-latest # 运行环境 测试
 
@@ -112,7 +113,7 @@ jobs:
           git config --local user.email "1598@qq.com"
           git config --local user.name "LNY_fake"      
           git add ${{ env.UPDATED_FILES }}
-          git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
+          git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }} [skip ci]"
           git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
       
 
