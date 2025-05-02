@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: 📂 拉取代码
         uses: actions/checkout@v4 #actions/checkout 的官方插件（action），它的作用是将代码库的内容拉取到当前的工作目录中。
+        with:
+          fetch-depth: 0 # 👈 加上这行即可解决问题    
 
       - name: 📅 设置 Node.js 环境
         uses: actions/setup-node@v4 # 设置 Node.js 环境
