@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 (function() {
-    //测试测试
+    //测试测试 测试
     'use strict'; //启用严格模式，提高代码规范性。禁止某些语法（如隐式全局变量），有助于避免潜在的错误。
     const redirectTarget = 'https://www.xiaohongshu.com/search_result?type=51';
 
