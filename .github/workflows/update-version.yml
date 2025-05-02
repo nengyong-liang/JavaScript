@@ -44,28 +44,9 @@ jobs:
             const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
             
-            //打印git diff --name-only
-            const output_1 = execSync("git diff --name-only", { encoding: "utf-8" });
-            console.log("git diff --name-only:",output_1);
-
-            //git diff --cached
-            const output_2 = execSync("git diff --cached", { encoding: "utf-8" });
-            console.log("git diff --cached:",output_2);
-            
             //git diff HEAD
-            const output_3 = execSync("git diff HEAD", { encoding: "utf-8" });
-            console.log("git diff HEAD:",output_3);
-
-            //git diff HEAD
-            const output_4 = execSync("git diff HEAD^", { encoding: "utf-8" });
-            console.log("git diff HEAD:",output_4);
-
-            // 获取 Git 中已修改过的 JS 文件（对比 HEAD 上一次提交）
-            const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
-            //打印output
-            console.log("output:", output);
-
-
+            const output = execSync("git diff HEAD", { encoding: "utf-8" });
+            console.log("git diff HEAD:",output);
 
             const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
 
