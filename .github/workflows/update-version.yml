@@ -32,12 +32,81 @@ jobs:
       # 使用正则表达式匹配 @version 行,所以无论 @version 后面是什么内容，都会被替换成新的版本号。
       # 使用 date-fns 格式化当前时间。
       # 把新版本号写入环境变量 $GITHUB_ENV。
-      - name: 🔧 替换被修改 JS 文件中的 @version 字段
+
+
+      # - name: 🔧 替换被修改 JS 文件中的 @version 字段
+      #   id: replace_version
+      #   run: |
+      #     node -e '
+      #       const fs = require("fs");
+      #       const { execSync } = require("child_process");
+      #       const path = require("path");
+      #       const { format } = require("date-fns");
+      
+      #       // 获取北京时间
+      #       const now = new Date();
+      #       const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+      #       const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
+
+      #       //打印前10次commit的哈希
+      #       const output_hash = execSync("git log --pretty=format:'%h' -n 10", { encoding: "utf-8" });
+      #       console.log("git log --pretty=format:'%h' -n 10",output_hash);
+            
+      #       //git diff HEAD^
+      #       const output = execSync("git diff --name-only HEAD^", { encoding: "utf-8" });
+      #       console.log("git diff --name-only HEAD^",output);
+
+      #       const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
+
+      #       //打印modifiedFiles 
+      #       console.log("modifiedFiles:", modifiedFiles);
+
+      #       if (modifiedFiles.length === 0) {
+      #         console.log("✅ 没有需要更新版本号的 JS 文件。");
+      #         process.exit(0);
+      #       }
+      
+      #       let updatedFiles = [];
+
+      #       // 遍历修改过的文件，读取内容并替换 @version 行
+      #       for (const file of modifiedFiles) { 
+      #         //打印文件名
+      #         console.log(`正在处理文件: ${file}`);
+      #         const filePath = path.resolve(__dirname, file); // 获取文件的绝对路径
+      #         //检查文件是否存在
+      #         if (!fs.existsSync(filePath)) {
+      #           console.warn(`⚠️ 跳过不存在的文件: ${filePath}`);
+      #           continue;
+      #         }
+              
+      #         let content = fs.readFileSync(filePath, "utf-8");
+      #         const newContent = content.replace(/\/\/ @version\s+.*/, `// @version     ${version}`);
+
+      #         if (newContent !== content) {
+      #           fs.writeFileSync(filePath, newContent);
+      #           updatedFiles.push(file);
+      #           console.log(`✅ 更新版本号: ${file}`);
+      #         } else {
+      #           console.log(`ℹ️ 文件中未发现 @version 行: ${file}`);
+      #         }
+      #       }
+      
+      #       if (updatedFiles.length === 0) {
+      #         console.log("📭 没有文件需要更新版本号");
+      #         process.exit(0);
+      #       }
+      
+      #       // 输出文件路径供后续 git add 使用
+      #       const files = updatedFiles.map(f => `"${f}"`).join(" ");
+      #       fs.appendFileSync(process.env.GITHUB_ENV, `UPDATED_FILES=${files}\n`);
+      #       fs.appendFileSync(process.env.GITHUB_ENV, `NEW_VERSION=${version}\n`);
+      #     '
+
+      - name: 🔧 替换所有 JS 文件中的 @version 字段
         id: replace_version
         run: |
           node -e '
             const fs = require("fs");
-            const { execSync } = require("child_process");
             const path = require("path");
             const { format } = require("date-fns");
       
@@ -45,61 +114,70 @@ jobs:
             const now = new Date();
             const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
-
-            //打印前10次commit的哈希
-            const output_hash = execSync("git log --pretty=format:'%h' -n 10", { encoding: "utf-8" });
-            console.log("git log --pretty=format:'%h' -n 10",output_hash);
-            
-            //git diff HEAD^
-            const output = execSync("git diff --name-only HEAD^", { encoding: "utf-8" });
-            console.log("git diff --name-only HEAD^",output);
-
-            const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
-
-            //打印modifiedFiles 
-            console.log("modifiedFiles:", modifiedFiles);
-
-            if (modifiedFiles.length === 0) {
-              console.log("✅ 没有需要更新版本号的 JS 文件。");
+      
+            // 递归查找当前目录下所有 .js 文件
+            function getAllJSFiles(dir) {
+              let results = [];
+              const list = fs.readdirSync(dir);
+              for (const file of list) {
+                const fullPath = path.join(dir, file);
+                const stat = fs.statSync(fullPath);
+                if (stat.isDirectory()) {
+                  results = results.concat(getAllJSFiles(fullPath));
+                } else if (file.endsWith(".js")) {
+                  results.push(fullPath);
+                }
+              }
+              return results;
+            }
+      
+            const allJsFiles = getAllJSFiles(".");
+            console.log("发现 JS 文件数量:", allJsFiles.length);
+      
+            if (allJsFiles.length === 0) {
+              console.log("✅ 没有找到任何 JS 文件。");
               process.exit(0);
             }
       
             let updatedFiles = [];
-
-            // 遍历修改过的文件，读取内容并替换 @version 行
-            for (const file of modifiedFiles) { 
-              //打印文件名
-              console.log(`正在处理文件: ${file}`);
-              const filePath = path.resolve(__dirname, file); // 获取文件的绝对路径
-              //检查文件是否存在
-              if (!fs.existsSync(filePath)) {
-                console.warn(`⚠️ 跳过不存在的文件: ${filePath}`);
-                continue;
-              }
-              
-              let content = fs.readFileSync(filePath, "utf-8");
-              const newContent = content.replace(/\/\/ @version\s+.*/, `// @version     ${version}`);
-
-              if (newContent !== content) {
-                fs.writeFileSync(filePath, newContent);
-                updatedFiles.push(file);
-                console.log(`✅ 更新版本号: ${file}`);
-              } else {
-                console.log(`ℹ️ 文件中未发现 @version 行: ${file}`);
+      
+            // 遍历所有 JS 文件，更新 @version 行或插入头部
+            for (const filePath of allJsFiles) {
+              const relativePath = path.relative(__dirname, filePath);
+              console.log(`正在处理文件: ${relativePath}`);
+      
+              try {
+                let content = fs.readFileSync(filePath, "utf-8");
+      
+                // 更宽松地匹配各种版本号格式
+                const hasVersion = /\/\/\s*@?version\s+.*/gi.test(content);
+                if (hasVersion) {
+                  const newContent = content.replace(/\/\/\s*@?version\s+.*/g, `// @version     ${version}`);
+                  fs.writeFileSync(filePath, newContent);
+                } else {
+                  // 如果不存在 @version 注释，在文件顶部插入一行
+                  const header = `// @version     ${version}\n`;
+                  fs.writeFileSync(filePath, header + content);
+                }
+      
+                updatedFiles.push(relativePath);
+                console.log(`✅ 已更新版本号: ${relativePath}`);
+              } catch (err) {
+                console.error(`⚠️ 处理文件失败: ${filePath}`, err.message);
               }
             }
       
             if (updatedFiles.length === 0) {
-              console.log("📭 没有文件需要更新版本号");
+              console.log("📭 没有任何文件被更新");
               process.exit(0);
             }
       
-            // 输出文件路径供后续 git add 使用
+            // 写入环境变量供后续步骤使用
             const files = updatedFiles.map(f => `"${f}"`).join(" ");
             fs.appendFileSync(process.env.GITHUB_ENV, `UPDATED_FILES=${files}\n`);
             fs.appendFileSync(process.env.GITHUB_ENV, `NEW_VERSION=${version}\n`);
           '
-      
+    
 
       # 设置 Git 用户信息。
       # 添加修改过的文件。
