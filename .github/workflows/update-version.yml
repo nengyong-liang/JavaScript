@@ -8,7 +8,7 @@ on: # 触发条件
 jobs:
   update-version:
     name: 更新版本号并提交
-    runs-on: ubuntu-latest # 运行环境
+    runs-on: ubuntu-latest # 运行环境 测试
 
     steps:
       #拉取代码到当前工作目录中
