@@ -43,7 +43,10 @@ jobs:
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
       
             // 获取 Git 中已修改过的 JS 文件（对比 HEAD 上一次提交）
-            const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
+
+            // 这句不行
+            // const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
+            const output = execSync("git diff --name-only --diff-filter=ACMRT origin/main...HEAD", { encoding: "utf-8" });
             const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
             //打印modifiedFiles 
             console.log("modifiedFiles:", modifiedFiles);
