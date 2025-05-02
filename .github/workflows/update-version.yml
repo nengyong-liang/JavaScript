@@ -38,7 +38,7 @@ jobs:
             let content = fs.readFileSync(scriptPath, "utf-8");
       
             const now = new Date();
-            const version = `0.6.${format(now, "yyyyMMddHH")}`;
+            const version = `0.${format(now, "yyyyMMddHHmmss")}`;
             const newContent = content.replace(
               /\/\/ @version\s+.*/,
               `// @version     ${version}`
@@ -62,3 +62,4 @@ jobs:
           git add xiaohongshu/expand_reply_slide.js
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
           git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
+
