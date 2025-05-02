@@ -4,8 +4,8 @@
 // @version     0.20250502165237
 // @description 该脚本适用于抖音和B站，在页面上显示倒计时，倒计时结束时提醒用户学习并关闭页面。
 // @author      YourName
-// @match       https://www.douyin.com/*
-// @match       
+// @match       https://www.douyin.com/?recommend=1
+// @match       https://www.douyin.com/discover
 // @icon        https://www.douyin.com/favicon.ico
 // @grant       none
 // @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/hard_close.js
@@ -15,6 +15,7 @@
     //match
     //https://www.bilibili.com/*
     //https://www.douyin.com/?recommend=1
+    //https://www.douyin.com/*
 
     // 创建可移动的小方框 duide 
     const countdownBox = document.createElement('div');

@@ -84,34 +84,34 @@
         }
     };
 
-        // 自动展开回复功能
+    // slow_自动展开回复功能
     const toggleExpandReplies_slow = async () => {
-        if (!isExpanding_slow) {
-            isExpanding_slow = true;
+        if (!isExpanding_slow) { // 点击时，如果没有在运行
+            isExpanding_slow = true; // 设置为运行中
             expand_slow_Paused = false;
             btnExpand_slow.innerText = 'slow_运行中';
-            try {
+            try { // 尝试执行以下代码
                 while (isExpanding_slow) {
-                    if (expand_slow_Paused) {
+                    if (expand_slow_Paused) { // 如果处于暂停状态
                         btnExpand_slow.innerText = 'slow_已暂停';
                         await sleep(200);
                         continue;
                     }
-                    const buttons = document.querySelectorAll('.show-more');
+                    const buttons = document.querySelectorAll('.show-more'); // 获取所有展开按钮
                     for (const button of buttons) {
                         button.click();
-                        await sleep(400);
+                        await sleep(1000);
                         if (!isExpanding) break;
                     }
-                    await sleep(500); // 等待更多内容加载
+                    await sleep(1000); // 等待更多内容加载
                 }
-            } finally {
-                btnExpand_slow.innerText = '展开回复';
+            } finally { // 最终执行的代码，无论是否发生错误
+                btnExpand_slow.innerText = '展开回复_slow';
                 isExpanding_slow = false;
             }
-        } else {
-            expand_slow_Paused = !expand_slow_Paused;
-            btnExpand_slow.innerText = expand_slow_Paused ? 'slow_已暂停' : 'slow_运行中';
+        } else {// 点击时，如果已经在运行
+            expand_slow_Paused = !expand_slow_Paused; // 切换暂停状态
+            btnExpand_slow.innerText = expand_slow_Paused ? 'slow_已暂停' : 'slow_运行中'; // 更新按钮文本
         }
     };
 
