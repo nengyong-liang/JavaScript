@@ -34,7 +34,7 @@
         setTimeout(function() {
             console.log('Redirecting to search page...');
             window.location.href = redirectTarget;
-        }, 500);
+        }, 70);
     }
 
     //立即检查当前URL
@@ -44,12 +44,12 @@
         return;
     }
 
-    //每秒检查一次当前URL
+    //每0.5检查一次当前URL
     setInterval(function() {
         if (isExploreUrl(window.location.href)) {
             console.log('Xiaohongshu homepage detected, redirecting to search page...');
             delayedRedirect();
         }
-    }, 1000);
+    }, 500);
 
 })();
