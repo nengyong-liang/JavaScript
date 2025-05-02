@@ -17,7 +17,7 @@
     //https://www.douyin.com/?recommend=1
     //https://www.douyin.com/*
 
-    // 创建可移动的小方框 duide 对的
+    // 创建可移动的小方框 duide 对的 测试
     const countdownBox = document.createElement('div');
     countdownBox.style = `
         position: fixed;

@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest # 运行环境
 
     steps:
+      #拉取代码到当前工作目录中
+      #actions/checkout 的官方插件（action），它的作用是将代码库的内容拉取到当前的工作目录中。
       - name: 📂 拉取代码
-        uses: actions/checkout@v4 #actions/checkout 的官方插件（action），它的作用是将代码库的内容拉取到当前的工作目录中。
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 👈 加上这行即可解决问题    
+          fetch-depth: 0 # 👈 加上这行即可解决问题   
 
       - name: 📅 设置 Node.js 环境
         uses: actions/setup-node@v4 # 设置 Node.js 环境
@@ -42,13 +44,23 @@ jobs:
             const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
             
-            //输出HEAD
-            console.log("HEAD:", process.env.GITHUB_REF_NAME);
-            //输出HEAD^
-            console.log("HEAD^:", process.env.GITHUB_REF_NAME + "^");
+            //打印git diff --name-only
+            const output_1 = execSync("git diff --name-only", { encoding: "utf-8" });
+            console.log("git diff --name-only:",output_1);
+            //git diff --cached
+            const output_2 = execSync("git diff --cached", { encoding: "utf-8" });
+            console.log("git diff --cached:",output_2);
+            //git diff HEAD
+            const output_3 = execSync("git diff HEAD", { encoding: "utf-8" });
+            console.log("git diff HEAD:",output_3);
 
             // 获取 Git 中已修改过的 JS 文件（对比 HEAD 上一次提交）
             const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
+            //打印output
+            console.log("output:", output);
+
+
+
             const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
 
             //打印modifiedFiles 
@@ -103,9 +115,8 @@ jobs:
       - name: 📤 提交更改并推送
         run: |
           git config --local user.email "745935060@qq.com"
-          git config --local user.name "LNY_11"
-      
-           git add ${{ env.UPDATED_FILES }}
+          git config --local user.name "LNY_11"      
+          git add ${{ env.UPDATED_FILES }}
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
           git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
 
