@@ -12,7 +12,7 @@
 // ==/UserScript==
 (function () {
     // 添加按钮样式
-    // 修改验证12345678910123
+    // 修改验证123456789
     const createButton = (text, color, bottom) => { //定义函数
         const button = document.createElement('div'); //创建一个新的 <div> 元素。
         button.style = `
