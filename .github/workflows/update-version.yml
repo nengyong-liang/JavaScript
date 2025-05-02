@@ -39,7 +39,7 @@ jobs:
       
             const now = new Date();
             const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000); // 北京时间
-            const version = `0.${format(now, "yyyyMMddHHmmss")}`;
+            const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
             const newContent = content.replace(
               /\/\/ @version\s+.*/,
               `// @version     ${version}`
