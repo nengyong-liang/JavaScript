@@ -5,6 +5,8 @@
 // @icon         https://www.xiaohongshu.com/favicon.ico
 // @description  Redirects to search page when visiting Xiaohongshu homepage to prevent addiction to fragmented information
 // @description:zh-CN  当访问小红书首页时自动跳转到搜索页，防止沉迷碎片信息
+// @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/xiaohongshu/homepage_prohibited.js
+// @updateURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/xiaohongshu/homepage_prohibited.js
 // ==/UserScript==
 
 (function() {
