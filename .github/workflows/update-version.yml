@@ -105,8 +105,8 @@ jobs:
         if: env.UPDATED_FILES != '' 
         run: |
           echo "if成立,执行下面的步骤"
-          git config --local user.email "745935060@qq.com"
-          git config --local user.name "LNY_11"      
+          git config --local user.email "1598@qq.com"
+          git config --local user.name "LNY_fake"      
           git add ${{ env.UPDATED_FILES }}
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
           git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
