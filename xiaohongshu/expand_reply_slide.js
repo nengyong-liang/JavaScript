@@ -134,7 +134,7 @@
         }
     };
 
-    // 按钮绑定事件
+    // 按钮绑定事件 测试
     btnExpand.onclick = toggleExpandReplies;
     btnScroll.onclick = toggleScrollPage;
     btnExpand_slow.onclick = toggleExpandReplies_slow
