@@ -94,10 +94,16 @@
 
             // 等待 1 秒后关闭页面
             setTimeout(() => {
-                window.close(); // 强制关闭页面
+                window.location.href = 'https://www.bilibili.com'; // 强制关闭页面
             }, 1000); // 等待3秒显示提醒
 
         }
     }, 1000); // 每秒更新一次倒计时
 
 })();
+
+
+//修改代码的逻辑，将计时部分封装到一个函数中，每1s检查一次当前URL
+//如果是https://www.douyin.com/?recommend=1或者https://www.douyin.com/discover及其子页面，则开始倒计时
+//如果进入了其他页面，则暂停倒计时
+//如果重写匹配到前述url，则继续倒计时
