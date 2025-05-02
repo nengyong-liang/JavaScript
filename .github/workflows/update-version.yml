@@ -1,50 +1,59 @@
 name: 自动更新小红书脚本版本号
 
-on:
+on: # 触发条件
   push:
-    branches:
+    branches: #那些分支触发
       - main  # 如果你用的是 main 分支，否则改成 master 或其他
 
 jobs:
   update-version:
     name: 更新版本号并提交
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 运行环境
 
     steps:
       - name: 📂 拉取代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 #actions/checkout 的官方插件（action），它的作用是将代码库的内容拉取到当前的工作目录中。
 
       - name: 📅 设置 Node.js 环境
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+        uses: actions/setup-node@v4 # 设置 Node.js 环境
+        with: #传递参数给这个 action
+          node-version: 18 # 你可以根据需要修改 Node.js 的版本号
 
       - name: 📦 安装依赖
-        run: npm install date-fns
+        run: npm install date-fns #安装 date-fns 这个 JS 库，用于格式化日期。
 
+      # 使用 Node.js 读写文件。
+      # 使用正则表达式匹配 @version 行,所以无论 @version 后面是什么内容，都会被替换成新的版本号。
+      # 使用 date-fns 格式化当前时间。
+      # 把新版本号写入环境变量 $GITHUB_ENV。
       - name: 🔧 替换 @version 字段
         id: replace_version
         run: |
-          node -e "
-            const fs = require('fs');
-            const path = require('path');
-            const { format } = require('date-fns');
-
-            const scriptPath = path.join(__dirname, 'xiaohongshu', 'expand_reply_slide.js');
-            let content = fs.readFileSync(scriptPath, 'utf-8');
-
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const { format } = require("date-fns");
+      
+            const scriptPath = path.join(__dirname, "xiaohongshu", "expand_reply_slide.js");
+            let content = fs.readFileSync(scriptPath, "utf-8");
+      
             const now = new Date();
-            const version = `0.6.${format(now, 'yyyyMMddHH')}`;
+            const version = `0.6.${format(now, "yyyyMMddHH")}`;
             const newContent = content.replace(
               /\/\/ @version\s+.*/,
               `// @version     ${version}`
             );
-
+      
             fs.writeFileSync(scriptPath, newContent);
             console.log(`Updated version to ${version}`);
             process.env.NEW_VERSION = version;
-          "
+          '
 
+
+      # 设置 Git 用户信息。
+      # 添加修改过的文件。
+      # 提交变更，并附带包含新版本号的 commit message。
+      # 推送到远程仓库
       - name: 📤 提交更改并推送
         run: |
           git config --local user.email "action@github.com"
