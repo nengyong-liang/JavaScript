@@ -16,7 +16,8 @@ jobs:
       - name: 📂 拉取代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 👈 加上这行即可解决问题   
+          fetch-depth: 0 # 👈 加上这行即可解决问题
+        # 拉取当前分支的完整 Git 历史（不是浅克隆），以便你可以在后续步骤中使用 Git 命令分析变更记录（比如检查哪些 JS 文件被改动了）。   
 
       - name: 📅 设置 Node.js 环境
         uses: actions/setup-node@v4 # 设置 Node.js 环境
@@ -44,9 +45,9 @@ jobs:
             const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
             
-            //git diff HEAD
-            const output = execSync("git diff HEAD", { encoding: "utf-8" });
-            console.log("git diff HEAD:",output);
+            //git diff HEAD^
+            const output = execSync("git diff --name-only HEAD^", { encoding: "utf-8" });
+            console.log("git diff --name-only HEAD^",output);
 
             const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
 

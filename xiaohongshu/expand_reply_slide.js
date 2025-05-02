@@ -13,7 +13,7 @@
 (function () {
     // 验证  验证
     // 添加按钮样式
-    // 修改验证  测试 测试 对的 测试 测试 ceshi 
+    // 修改验证  测试 测试 对的 测试 测试 ceshi  继续测试
     const createButton = (text, color, bottom) => { //定义函数
         const button = document.createElement('div'); //创建一个新的 <div> 元素。
         button.style = `
