@@ -14,7 +14,7 @@
     'use strict'; //启用严格模式，提高代码规范性。禁止某些语法（如隐式全局变量），有助于避免潜在的错误。
     const redirectTarget = 'https://www.xiaohongshu.com/search_result?type=51';
 
-    // 检查当前页面是否为小红书首页
+    // 检查当前页面是否为小红书首页 对的
     function isExploreUrl(url) {
         if (!url) return false;//如果url为空，直接返回false
 
