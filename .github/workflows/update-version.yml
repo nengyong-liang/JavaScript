@@ -100,10 +100,12 @@ jobs:
       # 提交变更，并附带包含新版本号的 commit message。
       # 推送到远程仓库，使用 GitHub Token 进行身份验证。
       - name: 📤 提交更改并推送
+        if: env.UPDATED_FILES != ''
         run: |
           git config --local user.email "745935060@qq.com"
           git config --local user.name "LNY_11"      
           git add ${{ env.UPDATED_FILES }}
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
           git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
+      
 
