@@ -26,30 +26,61 @@ jobs:
       # 使用正则表达式匹配 @version 行,所以无论 @version 后面是什么内容，都会被替换成新的版本号。
       # 使用 date-fns 格式化当前时间。
       # 把新版本号写入环境变量 $GITHUB_ENV。
-      - name: 🔧 替换 @version 字段
+      - name: 🔧 替换被修改 JS 文件中的 @version 字段
         id: replace_version
         run: |
           node -e '
             const fs = require("fs");
+            const { execSync } = require("child_process");
             const path = require("path");
             const { format } = require("date-fns");
       
-            const scriptPath = path.join(__dirname, "xiaohongshu", "expand_reply_slide.js");
-            let content = fs.readFileSync(scriptPath, "utf-8");
-      
+            // 获取北京时间
             const now = new Date();
-            const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000); // 北京时间
+            const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
-            const newContent = content.replace(
-              /\/\/ @version\s+.*/,
-              `// @version     ${version}`
-            );
       
-            fs.writeFileSync(scriptPath, newContent);
-            console.log(`Updated version to ${version}`);
-            process.env.NEW_VERSION = version;
+            // 获取 Git 中已修改过的 JS 文件（对比 HEAD 上一次提交）
+            const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
+            const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
+      
+            if (modifiedFiles.length === 0) {
+              console.log("✅ 没有需要更新版本号的 JS 文件。");
+              process.exit(0);
+            }
+      
+            let updatedFiles = [];
+      
+            for (const file of modifiedFiles) {
+              const filePath = path.resolve(__dirname, file);
+              if (!fs.existsSync(filePath)) {
+                console.warn(`⚠️ 跳过不存在的文件: ${filePath}`);
+                continue;
+              }
+      
+              let content = fs.readFileSync(filePath, "utf-8");
+              const newContent = content.replace(/\/\/ @version\s+.*/, `// @version     ${version}`);
+      
+              if (newContent !== content) {
+                fs.writeFileSync(filePath, newContent);
+                updatedFiles.push(file);
+                console.log(`✅ 更新版本号: ${file}`);
+              } else {
+                console.log(`ℹ️ 文件中未发现 @version 行: ${file}`);
+              }
+            }
+      
+            if (updatedFiles.length === 0) {
+              console.log("📭 没有文件需要更新版本号");
+              process.exit(0);
+            }
+      
+            // 输出文件路径供后续 git add 使用
+            const files = updatedFiles.map(f => `"${f}"`).join(" ");
+            fs.appendFileSync(process.env.GITHUB_ENV, `UPDATED_FILES=${files}\n`);
+            fs.appendFileSync(process.env.GITHUB_ENV, `NEW_VERSION=${version}\n`);
           '
-
+      
 
       # 设置 Git 用户信息。
       # 添加修改过的文件。
@@ -60,7 +91,7 @@ jobs:
           git config --local user.email "745935060@qq.com"
           git config --local user.name "LNY_11"
       
-          git add xiaohongshu/expand_reply_slide.js
+           git add ${{ env.UPDATED_FILES }}
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
           git push https://x-access-token:${{ secrets.LNY_GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
 
