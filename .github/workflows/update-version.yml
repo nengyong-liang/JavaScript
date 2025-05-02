@@ -46,8 +46,8 @@ jobs:
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
 
             //打印前10次commit的哈希
-            const output = execSync("git log --pretty=format:'%h' -n 10", { encoding: "utf-8" });
-            console.log("git log --pretty=format:'%h' -n 10",output);
+            const output_hash = execSync("git log --pretty=format:'%h' -n 10", { encoding: "utf-8" });
+            console.log("git log --pretty=format:'%h' -n 10",output_hash);
             
             //git diff HEAD^
             const output = execSync("git diff --name-only HEAD^", { encoding: "utf-8" });
