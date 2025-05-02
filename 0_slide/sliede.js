@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name        网页自动下滑（带开关控制）
 // @namespace   https://example.com
-// @version     0.1
+// @version     0.2
 // @description 该脚本可用于所有网站的自动下滑功能，点击开关按钮开始或暂停下滑。
 // @author      YourName
 // @match       *://*/*
-// @icon        https://example.com/favicon.ico
 // @grant       none
 // ==/UserScript==
 (function() {
