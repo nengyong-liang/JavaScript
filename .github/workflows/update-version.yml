@@ -41,13 +41,16 @@ jobs:
             const now = new Date();
             const beijingTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
             const version = `0.${format(beijingTime, "yyyyMMddHHmmss")}`;
-      
-            // 获取 Git 中已修改过的 JS 文件（对比 HEAD 上一次提交）
+            
+            //输出HEAD
+            console.log("HEAD:", process.env.GITHUB_REF_NAME);
+            //输出HEAD^
+            console.log("HEAD^:", process.env.GITHUB_REF_NAME + "^");
 
-            // 这句不行
-            // const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
-            const output = execSync("git diff --name-only --diff-filter=ACMRT origin/main...HEAD", { encoding: "utf-8" });
+            // 获取 Git 中已修改过的 JS 文件（对比 HEAD 上一次提交）
+            const output = execSync("git diff --name-only HEAD^ HEAD", { encoding: "utf-8" });
             const modifiedFiles = output.split("\n").filter(f => f.endsWith(".js"));
+
             //打印modifiedFiles 
             console.log("modifiedFiles:", modifiedFiles);
 
