@@ -56,8 +56,8 @@ jobs:
       # 推送到远程仓库，使用 GitHub Token 进行身份验证。
       - name: 📤 提交更改并推送
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "745935060@qq.com"
+          git config --local user.name "LNY_11"
       
           git add xiaohongshu/expand_reply_slide.js
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
