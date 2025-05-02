@@ -4,20 +4,23 @@
 // @version     0.20250503005749
 // @description 该脚本适用于抖音和B站，在页面上显示倒计时，倒计时结束时提醒用户学习并关闭页面。
 // @author      YourName
-// @match       https://www.douyin.com/?recommend=1
-// @match       https://www.douyin.com/discover
+// @match       https://www.douyin.com/*
 // @icon        https://www.douyin.com/favicon.ico
 // @grant       none
 // @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/hard_close.js
 // @updateURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/hard_close.js
 // ==/UserScript==
-(function() {
+
+(function () {
     //match
     //https://www.bilibili.com/*
     //https://www.douyin.com/?recommend=1
     //https://www.douyin.com/*
+    const TARGET_URLS = [
+        'https://www.douyin.com/?recommend=1',
+        'https://www.douyin.com/discover'
+    ];
 
-    // 创建可移动的小方框 duide 对的 测试
     const countdownBox = document.createElement('div');
     countdownBox.style = `
         position: fixed;
@@ -35,11 +38,9 @@
         z-index: 9999;
         cursor: move;
     `;
-    let countdown = 120; // 初始倒计时为60秒
-    //测试
-    countdownBox.innerText = `${countdown}s`;
+    document.body.appendChild(countdownBox);
 
-    // 可移动功能实现
+    // 可拖动逻辑
     let isDragging = false;
     let offsetX, offsetY;
 
@@ -60,50 +61,83 @@
         isDragging = false;
     });
 
-    // 将倒计时框添加到页面
-    document.body.appendChild(countdownBox);
+    let countdown = 120;
+    let intervalId = null;
+    let urlCheckTimer = null;
 
-    // 倒计时函数
-    const countdownInterval = setInterval(() => {
-        countdown--;
-        countdownBox.innerText = `${countdown}s`;
+    function isTargetPage(url) {
+        return TARGET_URLS.some(base => url === base || url.startsWith(base + '/'));
+    }
 
-        if (countdown <= 0) {
-            clearInterval(countdownInterval);
-            // 倒计时结束，显示大方框
-            const alertBox = document.createElement('div');
-            alertBox.style = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                width: 80%;
-                height: 80%;
-                transform:translate(-50%, -50%);
-                background-color: rgba(255, 0, 0, 0.8);
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 40px;
-                text-align: center;
-                border-radius: 10px;
-                z-index: 9999;
-            `;
-            alertBox.innerText = '1min结束，请去学习';
-            document.body.appendChild(alertBox);
+    function startCountdown() {
+        if (intervalId !== null) return; // 防止重复启动
+        intervalId = setInterval(() => {
+            countdown--;
+            countdownBox.innerText = `${countdown}s`;
 
-            // 等待 1 秒后关闭页面
-            setTimeout(() => {
-                window.location.href = 'https://www.bilibili.com'; // 强制关闭页面
-            }, 1000); // 等待3秒显示提醒
+            if (countdown <= 0) {
+                clearInterval(intervalId);
+                intervalId = null;
 
+                const alertBox = document.createElement('div');
+                alertBox.style = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    width: 80%;
+                    height: 80%;
+                    transform: translate(-50%, -50%);
+                    background-color: rgba(255, 0, 0, 0.8);
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 40px;
+                    text-align: center;
+                    border-radius: 10px;
+                    z-index: 9999;
+                `;
+                alertBox.innerText = '时间到！请去学习。';
+                document.body.appendChild(alertBox);
+
+                setTimeout(() => {
+                    window.close();
+                }, 1000);
+            }
+        }, 1000);
+    }
+
+    function stopCountdown() {
+        if (intervalId !== null) {
+            clearInterval(intervalId);
+            intervalId = null;
         }
-    }, 1000); // 每秒更新一次倒计时
+    }
 
+    function monitorURL() {
+        let lastURL = location.href;
+
+        urlCheckTimer = setInterval(() => {
+            const currentURL = location.href;
+            if (currentURL !== lastURL) {
+                lastURL = currentURL;
+            }
+
+            if (isTargetPage(currentURL)) {
+                startCountdown();
+            } else {
+                stopCountdown();
+                countdownBox.innerText = `暂停`;
+            }
+        }, 1000);
+    }
+
+    countdownBox.innerText = `${countdown}s`;
+    monitorURL();
 })();
 
-
-//修改代码的逻辑，将计时部分封装到一个函数中，每1s检查一次当前URL
-//如果是https://www.douyin.com/?recommend=1或者https://www.douyin.com/discover及其子页面，则开始倒计时
+//修改代码的逻辑，将计时部分封装到一个函数中，
+//函数功能如下，每1s检查一次当前URL，如果是https://www.douyin.com/?recommend=1或者https://www.douyin.com/discover及其子页面，则开始倒计时
 //如果进入了其他页面，则暂停倒计时
 //如果重写匹配到前述url，则继续倒计时
+//倒计时归零则与原代码中一样
