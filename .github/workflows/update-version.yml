@@ -53,12 +53,12 @@ jobs:
       # 设置 Git 用户信息。
       # 添加修改过的文件。
       # 提交变更，并附带包含新版本号的 commit message。
-      # 推送到远程仓库
+      # 推送到远程仓库，使用 GitHub Token 进行身份验证。
       - name: 📤 提交更改并推送
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
+      
           git add xiaohongshu/expand_reply_slide.js
           git commit -m "🔧 自动更新版本号至 ${{ env.NEW_VERSION }}"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/nengyong-liang/JavaScript.git
