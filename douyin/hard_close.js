@@ -35,7 +35,8 @@
         z-index: 9999;
         cursor: move;
     `;
-    let countdown = 1; // 初始倒计时为60秒
+    let countdown = 120; // 初始倒计时为60秒
+    //测试
     countdownBox.innerText = `${countdown}s`;
 
     // 可移动功能实现
