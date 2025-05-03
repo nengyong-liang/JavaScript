@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         抖音收藏视频跳转助手
 // @namespace    http://tampermonkey.net/
-// @version     0.20250503020615
+// @version     0.20250503124723
 // @description  在抖音用户收藏页面显示可移动按钮，点击跳转到对应视频页面
 // @author       你
 // @match        https://www.douyin.com/user/self*
