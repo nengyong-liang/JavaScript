@@ -5,6 +5,7 @@
 // @description  在抖音用户收藏页面显示可移动按钮，左键点击跳转视频，右键点击拖动按钮
 // @author       你
 // @match        https://www.douyin.com/*
+// @icon        https://www.douyin.com/favicon.ico
 // @grant        none
 // @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/video_download.js
 // @updateURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/video_download.js
