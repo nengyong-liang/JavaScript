@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         抖音收藏视频跳转助手 - 支持左键跳转右键拖动
 // @namespace    http://tampermonkey.net/
-// @version     0.20250503133221
+// @version     0.20250503173954
 // @description  在抖音用户收藏页面显示可移动按钮，左键点击跳转视频，右键点击拖动按钮
 // @author       你
 // @match        https://www.douyin.com/*
