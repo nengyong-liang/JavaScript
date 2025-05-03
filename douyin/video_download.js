@@ -13,8 +13,8 @@
 
     // 提取 modal_id 的函数
     function getModalIdFromUrl() {
-        const search = window.location.search;
-        const params = new URLSearchParams(search);
+        const search = window.location.search; // 获取当前 URL 的查询参数
+        const params = new URLSearchParams(search); // 创建 URLSearchParams 对象
         return params.get('modal_id');
     }
 
@@ -47,6 +47,7 @@
 
         // 左键点击事件：跳转视频页面
         button.addEventListener('click', (e) => {
+            modalId = getModalIdFromUrl();
             if (e.button === 0) { // 左键点击
                 window.open(`https://www.douyin.com/video/${modalId}`, '_blank');
             }
@@ -84,26 +85,21 @@
 
     // 主逻辑
     function main() {
-        const modalId = getModalIdFromUrl();
-        if (!modalId) return;
-
         const existingBtn = document.getElementById('dy-float-btn');
         if (existingBtn) {
             existingBtn.remove();
         }
-
         const floatingBtn = createFloatingButton(modalId);
         floatingBtn.id = 'dy-float-btn';
         document.body.appendChild(floatingBtn);
     }
 
-    // 监听 URL 变化（适用于单页应用）
-    //监听间隔 
-    const oldPushState = history.pushState;
-    history.pushState = function (...args) {
-        oldPushState.apply(this, args);
-        main();
-    };
+    // // 监听 URL 变化（适用于单页应用）
+    // const oldPushState = history.pushState; // 备份原有的 pushState 方法
+    // history.pushState = function (...args) {
+    //     oldPushState.apply(this, args);
+    //     main();
+    // };
 
     // 初始化
     main();
