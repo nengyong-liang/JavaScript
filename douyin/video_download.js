@@ -6,6 +6,8 @@
 // @author       你
 // @match        https://www.douyin.com/*
 // @grant        none
+// @downloadURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/video_download.js
+// @updateURL https://raw.githubusercontent.com/nengyong-liang/JavaScript/refs/heads/main/douyin/video_download.js
 // ==/UserScript==
 
 (function () {
@@ -19,7 +21,7 @@
     }
 
     // 创建浮动按钮
-    function createFloatingButton(modalId) {
+    function createFloatingButton() {
         const button = document.createElement('div');
         button.innerText = '跳转视频';
         button.style = `
@@ -47,9 +49,10 @@
 
         // 左键点击事件：跳转视频页面
         button.addEventListener('click', (e) => {
-            modalId = getModalIdFromUrl();
+            const modalId = getModalIdFromUrl();
             if (e.button === 0) { // 左键点击
                 window.open(`https://www.douyin.com/video/${modalId}`, '_blank');
+                //并对新打开的网页静音                
             }
         });
 
@@ -89,7 +92,7 @@
         if (existingBtn) {
             existingBtn.remove();
         }
-        const floatingBtn = createFloatingButton(modalId);
+        const floatingBtn = createFloatingButton();
         floatingBtn.id = 'dy-float-btn';
         document.body.appendChild(floatingBtn);
     }
