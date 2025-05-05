@@ -28,7 +28,7 @@
         button.style = `
             position: fixed;
             left: 20px;
-            bottom: 20px;
+            bottom: 50%;
             z-index: 99999;
             width: 60px;
             height: 60px;
