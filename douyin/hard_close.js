@@ -132,7 +132,7 @@
                 stopCountdown();
                 countdownBox.innerText = `暂停`;
             }
-        }, 1000);
+        }, 20000);
     }
 
     countdownBox.innerText = `${countdown}s`;
