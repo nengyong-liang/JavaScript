@@ -103,7 +103,7 @@
                 setTimeout(() => {
                     //window.close();
                     window.location.href = 'https://web.shiguangxu.com/home/matter/all'; // 或者替换成你要跳转的网址
-                }, 1000);
+                }, 20000);
             }
         }, 1000);
     }
@@ -132,7 +132,7 @@
                 stopCountdown();
                 countdownBox.innerText = `暂停`;
             }
-        }, 20000);
+        }, 1000);
     }
 
     countdownBox.innerText = `${countdown}s`;
