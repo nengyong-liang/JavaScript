@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        网页倒计时提醒
 // @namespace   https://example.com
-// @version     0.20250503174029
+// @version     0.20250505215016
 // @description 该脚本适用于抖音和B站，在页面上显示倒计时，倒计时结束时提醒用户学习并关闭页面。
 // @author      YourName
 // @match       https://www.douyin.com/*
