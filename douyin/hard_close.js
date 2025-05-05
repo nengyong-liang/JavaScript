@@ -105,6 +105,8 @@
                     window.location.href = 'https://web.shiguangxu.com/home/matter/all'; // 或者替换成你要跳转的网址
                 }, 20000);
             }
+
+            // 这里有bug，逐级叠加hongse 
         }, 1000);
     }
 
