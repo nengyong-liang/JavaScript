@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Block Xiaohongshu Homepage
 // @name:zh-CN   禁止访问小红书首页
-// @version     0.20250505215016
+// @version     0.20250505221158
 // @match        https://www.xiaohongshu.com/*
 // @icon         https://www.xiaohongshu.com/favicon.ico
 // @description  Redirects to search page when visiting Xiaohongshu homepage to prevent addiction to fragmented information

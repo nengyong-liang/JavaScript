@@ -36,7 +36,7 @@ for (const file of modifiedFiles) {
   }
   
   let content = fs.readFileSync(filePath, "utf-8");
-  const newContent = content.replace(/\/\/ @version\s+.*/, `// @version     0.20250505215016
+  const newContent = content.replace(/\/\/ @version\s+.*/, `// @version     0.20250505221158
 
   if (newContent !== content) {
     fs.writeFileSync(filePath, newContent);
